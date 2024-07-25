@@ -26,19 +26,9 @@ class FreightTableController extends Controller
 
             $records = $csv->getRecords();
 
-            $secondRecord = null;
-            foreach ($records as $index => $record) {
-                if ($index == 1) {
-                    $secondRecord = $record;
-                    break;
-                }
-            }
+            $allRecords = iterator_to_array($records);
 
-            if ($secondRecord === null) {
-                return response()->json(['error' => 'No second record found in the CSV file'], 400);
-            }
-
-            return response()->json($secondRecord, 200);
+            return response()->json($allRecords, 200);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
