@@ -3,9 +3,8 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use Schema;
+use Illuminate\Support\Facades\Schema;
 
 class MigrationTest extends TestCase
 {
@@ -13,33 +12,41 @@ class MigrationTest extends TestCase
 
     public function test_customers_table_has_expected_columns()
     {
-        $this->assertTrue(
-            Schema::hasColumns('customers', [
-                'id',
-                'name',
-                'created_at',
-                'updated_at',
-            ]),
-            1
-        );
+        $columns = Schema::getColumnListing('customers');
+        $this->assertEqualsCanonicalizing([
+            'id',
+            'name',
+            'created_at',
+            'updated_at',
+        ], $columns);
     }
 
     public function test_freight_tables_table_has_expected_columns()
     {
-        $this->assertTrue(
-            Schema::hasColumns('freight_tables', [
-                'id',
-                'customer_id',
-                'from_postcode',
-                'to_postcode',
-                'from_weight',
-                'to_weight',
-                'cost',
-                'branch_id',
-                'created_at',
-                'updated_at',
-            ]),
-            1
-        );
+        $columns = Schema::getColumnListing('freight_tables');
+        $this->assertEqualsCanonicalizing([
+            'id',
+            'customer_id',
+            'branch_id',
+            'from_postcode',
+            'to_postcode',
+            'from_weight',
+            'to_weight',
+            'cost',
+            'created_at',
+            'updated_at',
+        ], $columns);
+    }
+
+    public function test_branches_table_has_expected_columns()
+    {
+        $columns = Schema::getColumnListing('branches');
+        $this->assertEqualsCanonicalizing([
+            'id',
+            'name',
+            'location',
+            'created_at',
+            'updated_at',
+        ], $columns);
     }
 }
