@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use League\Csv\Reader;
-use League\Csv\Exception;
+use App\Jobs\ProcessFreightTableCsv;
+use Exception;
 
 class FreightTableController extends Controller
 {
@@ -20,15 +20,11 @@ class FreightTableController extends Controller
         }
 
         try {
-            $csv = Reader::createFromPath($request->file('csv_file')->getRealPath(), 'r');
-            $csv->setHeaderOffset(0);
-            $csv->setDelimiter(',');
+            $filePath = $request->file('csv_file')->store('temp');
 
-            $records = $csv->getRecords();
+            ProcessFreightTableCsv::dispatch(storage_path("app/$filePath"));
 
-            $allRecords = iterator_to_array($records);
-
-            return response()->json($allRecords, 200);
+            return response()->json(['message' => 'File is being processed'], 200);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
