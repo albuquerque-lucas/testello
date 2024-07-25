@@ -10,14 +10,13 @@ use Exception;
 
 class FreightTableController extends Controller
 {
-
     public function index(Request $request)
     {
         try {
             $freightTables = FreightTable::search($request->all());
             return response()->json($freightTables);
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['error' => 'Erro ao buscar registros da tabela de frete'], 500);
         }
     }
     
@@ -27,9 +26,10 @@ class FreightTableController extends Controller
             $freightTable = FreightTable::findOrFail($id);
             return response()->json($freightTable);
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['error' => 'Erro ao buscar o registro da tabela de frete'], 500);
         }
     }
+
     public function uploadCSV(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -45,9 +45,9 @@ class FreightTableController extends Controller
 
             ProcessFreightTableCsv::dispatch(storage_path("app/$filePath"));
 
-            return response()->json(['message' => 'File is being processed'], 200);
+            return response()->json(['message' => 'O arquivo está sendo processado'], 200);
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['error' => 'Erro ao processar o arquivo CSV'], 500);
         }
     }
 }
