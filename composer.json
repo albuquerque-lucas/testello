@@ -49,7 +49,8 @@
         "refresh:db": [
             "./vendor/bin/sail artisan db:wipe",
             "./vendor/bin/sail artisan migrate --seed"
-        ]
+        ],
+        "test": "./vendor/bin/sail artisan test"
     },
     "extra": {
         "laravel": {
