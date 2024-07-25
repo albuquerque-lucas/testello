@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('freight_tables', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Customer::class)->constrained();
+            $table->foreignIdFor(Customer::class)->nullable()->constrained();
             $table->string('from_postcode');
             $table->string('to_postcode');
             $table->decimal('from_weight', 8, 2);

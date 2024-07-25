@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('freight_tables', function (Blueprint $table) {
-            $table->foreignIdFor(Branch::class)->constrained()->after('customer_id');
+            $table->foreignIdFor(Branch::class)->constrained();
         });
     }
 
