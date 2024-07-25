@@ -5,10 +5,31 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Jobs\ProcessFreightTableCsv;
+use App\Models\FreightTable;
 use Exception;
 
 class FreightTableController extends Controller
 {
+
+    public function index(Request $request)
+    {
+        try {
+            $freightTables = FreightTable::search($request->all());
+            return response()->json($freightTables);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    
+    public function show($id)
+    {
+        try {
+            $freightTable = FreightTable::findOrFail($id);
+            return response()->json($freightTable);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
     public function uploadCSV(Request $request)
     {
         $validator = Validator::make($request->all(), [
