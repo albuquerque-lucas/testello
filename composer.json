@@ -45,7 +45,11 @@
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
         ],
-        "sail": "./vendor/bin/sail artisan"
+        "sail": "./vendor/bin/sail artisan",
+        "refresh:db": [
+            "./vendor/bin/sail artisan db:wipe",
+            "./vendor/bin/sail artisan migrate --seed"
+        ]
     },
     "extra": {
         "laravel": {
