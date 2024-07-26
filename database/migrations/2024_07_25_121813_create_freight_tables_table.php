@@ -20,7 +20,6 @@ return new class extends Migration
             $table->decimal('from_weight', 8, 2);
             $table->decimal('to_weight', 8, 2);
             $table->decimal('cost', 8, 2);
-            $table->timestamps();
         });
     }
 

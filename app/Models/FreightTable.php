@@ -29,4 +29,21 @@ class FreightTable extends Model
     {
         return $this->belongsTo(Branch::class);
     }
+
+    public static function search(array $params)
+    {
+        $query = self::query();
+
+        foreach ($params as $key => $value) {
+            if (in_array($key, (new self)->fillable) && !is_null($value)) {
+                if (in_array($key, ['from_postcode', 'to_postcode'])) {
+                    $query->where($key, 'like', '%' . $value . '%');
+                } else {
+                    $query->where($key, $value);
+                }
+            }
+        }
+
+        return $query->paginate(15);
+    }
 }
