@@ -16,26 +16,30 @@ class ProcessFreightTableCsv implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $filePath;
+    protected $filePaths;
 
-    public function __construct($filePath)
+    public function __construct($filePaths)
     {
-        $this->filePath = $filePath;
+        $this->filePaths = $filePaths;
     }
 
     public function handle()
     {
+
         try {
-            $csv = Reader::createFromPath($this->filePath, 'r');
-            $csv->setHeaderOffset(0);
-            $csv->setDelimiter(',');
+            foreach ($this->filePaths as $filePath) {
 
-            $records = $csv->getRecords();
-            $chunks = array_chunk(iterator_to_array($records), 1000);
+                $csv = Reader::createFromPath($filePath, 'r');
+                $csv->setHeaderOffset(0);
+                $csv->setDelimiter(',');
 
-            foreach ($chunks as $chunk) {
-                $processedChunk = array_map([$this, 'convertDecimalValues'], $chunk);
-                FreightTable::insert($processedChunk);
+                $records = $csv->getRecords();
+                $chunks = array_chunk(iterator_to_array($records), 1000);
+
+                foreach ($chunks as $chunk) {
+                    $processedChunk = array_map([$this, 'convertDecimalValues'], $chunk);
+                    FreightTable::insert($processedChunk);
+                }
             }
         } catch (Exception $e) {
             Log::error('Error processing CSV: ' . $e->getMessage());

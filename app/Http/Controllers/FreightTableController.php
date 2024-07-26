@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Jobs\ProcessFreightTableCsv;
 use App\Models\FreightTable;
+use Illuminate\Support\Facades\Log;
 use Exception;
 
 class FreightTableController extends Controller
@@ -33,7 +34,8 @@ class FreightTableController extends Controller
     public function uploadCSV(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'csv_file' => 'required|file|mimes:csv,txt|max:50240',
+            'csv_file' => 'required|array',
+            'csv_file.*' => 'file|mimes:csv,txt|max:50240',
         ]);
 
         if ($validator->fails()) {
@@ -41,13 +43,17 @@ class FreightTableController extends Controller
         }
 
         try {
-            $filePath = $request->file('csv_file')->store('temp');
+            $filePaths = [];
+            foreach ($request->file('csv_file') as $file) {
+                $filePath = $file->store('temp');
+                $filePaths[] = storage_path("app/$filePath");
+            }
 
-            ProcessFreightTableCsv::dispatch(storage_path("app/$filePath"));
+            ProcessFreightTableCsv::dispatch($filePaths);
 
-            return response()->json(['message' => 'O arquivo está sendo processado'], 200);
+            return response()->json(['message' => 'Os arquivos estão sendo processados'], 200);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Erro ao processar o arquivo CSV'], 500);
+            return response()->json(['error' => 'Erro ao processar os arquivos CSV'], 500);
         }
     }
 }
