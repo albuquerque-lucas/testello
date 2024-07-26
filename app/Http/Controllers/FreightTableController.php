@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\UploadFreightCsvRequest;
 use App\Jobs\ProcessFreightTableCsv;
 use App\Models\FreightTable;
-use Illuminate\Support\Facades\Log;
 use Exception;
 
 class FreightTableController extends Controller
@@ -31,17 +30,8 @@ class FreightTableController extends Controller
         }
     }
 
-    public function uploadCSV(Request $request)
+    public function uploadCSV(UploadFreightCsvRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'csv_file' => 'required|array',
-            'csv_file.*' => 'file|mimes:csv,txt|max:50240',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
-        }
-
         try {
             $filePaths = [];
             foreach ($request->file('csv_file') as $file) {
