@@ -37,7 +37,7 @@ class FreightTable extends Model
         foreach ($params as $key => $value) {
             if (in_array($key, (new self)->fillable) && !is_null($value)) {
                 if (in_array($key, ['from_postcode', 'to_postcode'])) {
-                    $query->where($key, 'like', '%' . $value . '%');
+                    $query->where($key, 'like', "%$value%");
                 } else {
                     $query->where($key, $value);
                 }

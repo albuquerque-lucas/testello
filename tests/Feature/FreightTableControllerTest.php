@@ -45,6 +45,60 @@ class FreightTableControllerTest extends TestCase
         ]);
     }
 
+    public function test_it_can_create_a_freight_table()
+    {
+        $branch = Branch::factory()->create();
+        $data = [
+            'branch_id' => $branch->id,
+            'from_postcode' => '12345',
+            'to_postcode' => '54321',
+            'from_weight' => '0.00',
+            'to_weight' => '10.00',
+            'cost' => '50.00',
+        ];
+
+        $response = $this->postJson('/api/freight-tables', $data);
+
+        $response->assertStatus(201);
+        $response->assertJson($data);
+        $this->assertDatabaseHas('freight_tables', $data);
+    }
+
+    public function test_it_can_update_a_freight_table()
+    {
+        $branch = Branch::factory()->create();
+        $freightTable = FreightTable::factory()->create();
+        $data = [
+            'branch_id' => $branch->id,
+            'from_postcode' => '11111',
+            'to_postcode' => '99999',
+            'from_weight' => '1.00',
+            'to_weight' => '5.00',
+            'cost' => '20.00',
+        ];
+
+        $response = $this->putJson("/api/freight-tables/{$freightTable->id}", $data);
+
+        $response->assertStatus(200);
+        $response->assertJson($data);
+        $this->assertDatabaseHas('freight_tables', $data);
+    }
+
+    public function test_it_can_delete_freight_tables()
+    {
+        $branch = Branch::factory()->create();
+        $freightTables = FreightTable::factory()->count(3)->create();
+    
+        $ids = $freightTables->pluck('id')->toArray();
+    
+        $response = $this->postJson('/api/freight-tables/delete', ['ids' => $ids]);
+    
+        $response->assertStatus(200);
+        foreach ($ids as $id) {
+            $this->assertDatabaseMissing('freight_tables', ['id' => $id]);
+        }
+    }
+
     public function test_it_can_upload_freight_csv()
     {
         Storage::fake('local');

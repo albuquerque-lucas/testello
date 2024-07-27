@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UploadFreightCsvRequest;
 use App\Jobs\ProcessFreightTableCsv;
 use App\Models\FreightTable;
+use Illuminate\Support\Facades\DB;
 use Exception;
 
 class FreightTableController extends Controller
@@ -44,6 +45,47 @@ class FreightTableController extends Controller
             return response()->json(['message' => 'Os arquivos estão sendo processados'], 200);
         } catch (Exception $e) {
             return response()->json(['error' => 'Erro ao processar os arquivos CSV'], 500);
+        }
+    }
+
+    public function store(Request $request)
+    {
+        try {
+            $freightTable = FreightTable::create($request->all());
+            return response()->json($freightTable, 201);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Erro ao criar o registro da tabela de frete'], 500);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $freightTable = FreightTable::findOrFail($id);
+            $freightTable->update($request->all());
+            return response()->json($freightTable);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Erro ao atualizar o registro da tabela de frete'], 500);
+        }
+    }
+
+    public function destroy(Request $request)
+    {
+        $ids = $request->input('ids', []);
+    
+        if (empty($ids)) {
+            return response()->json(['error' => 'Nenhum ID fornecido'], 400);
+        }
+    
+        try {
+            DB::transaction(function () use ($ids) {
+                FreightTable::whereIn('id', $ids)->delete();
+            });
+    
+            return response()->json(['message' => 'Registros da tabela de frete deletados com sucesso'], 200);
+        } catch (Exception $e) {
+            \Log::error('Erro ao deletar os registros da tabela de frete: ' . $e->getMessage());
+            return response()->json(['error' => 'Erro ao deletar os registros da tabela de frete'], 500);
         }
     }
 }
