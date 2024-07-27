@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\FreightTable;
+use App\Models\Branch;
 
 class FreightTableControllerTest extends TestCase
 {
@@ -12,6 +13,7 @@ class FreightTableControllerTest extends TestCase
 
     public function test_it_can_fetch_all_freight_tables()
     {
+        Branch::factory()->count(10)->create();
         FreightTable::factory()->count(5)->create();
 
         $response = $this->getJson('/api/freight-tables');
@@ -22,6 +24,7 @@ class FreightTableControllerTest extends TestCase
 
     public function test_it_can_fetch_a_single_freight_table_by_id()
     {
+        Branch::factory()->count(10)->create();
         $freightTable = FreightTable::factory()->create();
 
         $response = $this->getJson("/api/freight-tables/{$freightTable->id}");
