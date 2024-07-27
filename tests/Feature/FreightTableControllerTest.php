@@ -10,8 +10,7 @@ class FreightTableControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function it_can_fetch_all_freight_tables()
+    public function test_it_can_fetch_all_freight_tables()
     {
         FreightTable::factory()->count(5)->create();
 
@@ -21,8 +20,7 @@ class FreightTableControllerTest extends TestCase
         $response->assertJsonCount(5, 'data');
     }
 
-    /** @test */
-    public function it_can_fetch_a_single_freight_table_by_id()
+    public function test_it_can_fetch_a_single_freight_table_by_id()
     {
         $freightTable = FreightTable::factory()->create();
 
