@@ -62,4 +62,9 @@ class ProcessFreightTableCsv implements ShouldQueue
         
         return $value;
     }
+
+    public function getFilePaths()
+    {
+        return $this->filePaths;
+    }
 }

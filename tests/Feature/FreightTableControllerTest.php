@@ -2,10 +2,14 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\FreightTable;
 use App\Models\Branch;
+use App\Jobs\ProcessFreightTableCsv;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Bus;
 
 class FreightTableControllerTest extends TestCase
 {
@@ -39,5 +43,31 @@ class FreightTableControllerTest extends TestCase
             'cost' => $freightTable->cost,
             'branch_id' => $freightTable->branch_id,
         ]);
+    }
+
+    public function test_it_can_upload_freight_csv()
+    {
+        Storage::fake('local');
+
+        Bus::fake();
+
+        $csvFile = UploadedFile::fake()->createWithContent('freight.csv', implode("\n", [
+            'from_postcode,to_postcode,from_weight,to_weight,cost,branch_id',
+            '12345,67890,0.5,1.0,50.00,1',
+            '23456,78901,1.5,2.0,75.00,2'
+        ]));
+
+        $response = $this->postJson('/api/upload-freight-csv', [
+            'csv_file' => [$csvFile]
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJson(['message' => 'Os arquivos estão sendo processados']);
+
+        Storage::disk('local')->assertExists('temp/' . $csvFile->hashName());
+
+        Bus::assertDispatched(ProcessFreightTableCsv::class, function ($job) use ($csvFile) {
+            return in_array(storage_path('app/temp/' . $csvFile->hashName()), $job->getFilePaths());
+        });
     }
 }
