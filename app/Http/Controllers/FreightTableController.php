@@ -72,17 +72,19 @@ class FreightTableController extends Controller
     public function destroy(Request $request)
     {
         $ids = $request->input('ids', []);
+    
         if (empty($ids)) {
             return response()->json(['error' => 'Nenhum ID fornecido'], 400);
         }
-
+    
         try {
             DB::transaction(function () use ($ids) {
-                FreightTable::destroy($ids);
+                FreightTable::whereIn('id', $ids)->delete();
             });
-
-            return response()->json(['message' => 'Registros da tabela de frete deletados com sucesso']);
+    
+            return response()->json(['message' => 'Registros da tabela de frete deletados com sucesso'], 200);
         } catch (Exception $e) {
+            \Log::error('Erro ao deletar os registros da tabela de frete: ' . $e->getMessage());
             return response()->json(['error' => 'Erro ao deletar os registros da tabela de frete'], 500);
         }
     }
