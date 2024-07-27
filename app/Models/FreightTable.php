@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class FreightTable extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'branch_id',
         'customer_id',
@@ -19,6 +18,7 @@ class FreightTable extends Model
         'to_weight',
         'cost',
     ];
+
 
     public function customer(): BelongsTo
     {
