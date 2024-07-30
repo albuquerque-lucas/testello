@@ -8,15 +8,19 @@ use Exception;
 
 class CustomerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $customers = Customer::all();
+            $searchParams = $request->only(['name']);
+            $sortOrder = $request->input('sort', 'desc');
+            $customers = Customer::search($searchParams, $sortOrder);
+    
             return response()->json($customers);
         } catch (Exception $e) {
             return response()->json(['error' => 'Erro ao buscar os clientes'], 500);
         }
     }
+    
 
     public function show($id)
     {
