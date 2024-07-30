@@ -11,8 +11,8 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         try {
-            $searchParams = $request->only(['name']);
-            $sortOrder = $request->input('sort', 'desc');
+            $searchParams = $request->only(['name', 'order']);
+            $sortOrder = $searchParams['order'] ?? 'desc';
             $customers = Customer::search($searchParams, $sortOrder);
     
             return response()->json($customers);
