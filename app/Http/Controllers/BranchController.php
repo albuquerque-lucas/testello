@@ -8,13 +8,16 @@ use Exception;
 
 class BranchController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $branches = Branch::all();
-            return response()->json($branches);
+            $searchParams = $request->only(['name', 'location', 'order']);
+            $sortOrder = $searchParams['order'] ?? 'desc';
+            $customers = Branch::search($searchParams, $sortOrder);
+    
+            return response()->json($customers);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Erro ao buscar os branches'], 500);
+            return response()->json(['error' => 'Erro ao buscar os clientes'], 500);
         }
     }
 
