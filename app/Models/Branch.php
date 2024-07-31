@@ -16,4 +16,16 @@ class Branch extends Model
     {
         return $this->hasMany(FreightTable::class);
     }
+
+    public static function search(array $params, string $sortOrder = 'desc')
+    {
+        $query = self::query();
+        foreach ($params as $key => $value) {
+            if (in_array($key, ['name', 'location'])) {
+                $query->where($key, 'like', "%$value%");
+            }
+        }
+
+        return $query->orderBy('id', $sortOrder)->paginate();
+    }
 }

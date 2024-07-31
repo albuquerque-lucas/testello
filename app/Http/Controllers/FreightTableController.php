@@ -14,12 +14,27 @@ class FreightTableController extends Controller
     public function index(Request $request)
     {
         try {
-            $freightTables = FreightTable::search($request->all());
+            $searchParams = $request->only([
+                'branch_id',
+                'customer_id',
+                'from_postcode',
+                'to_postcode',
+                'from_weight',
+                'to_weight',
+                'cost',
+                'name',
+                'order'
+            ]);
+            $sortOrder = $searchParams['order'] ?? 'desc';
+            $freightTables = FreightTable::search($searchParams, $sortOrder);
+    
             return response()->json($freightTables);
         } catch (Exception $e) {
             return response()->json(['error' => 'Erro ao buscar registros da tabela de frete'], 500);
         }
     }
+    
+    
     
     public function show($id)
     {
