@@ -103,4 +103,15 @@ class FreightTableController extends Controller
             return response()->json(['error' => 'Erro ao deletar os registros da tabela de frete'], 500);
         }
     }
+
+    public function bulkDelete()
+    {
+        try {
+            FreightTable::truncate();
+            return response()->json(['message' => 'Todos os registros da tabela de frete foram deletados com sucesso'], 200);
+        } catch (Exception $e) {
+            \Log::error('Erro ao deletar todos os registros da tabela de frete: ' . $e->getMessage());
+            return response()->json(['error' => 'Erro ao deletar todos os registros da tabela de frete'], 500);
+        }
+    }
 }
