@@ -37,6 +37,7 @@ Solução para Importação de Tabelas de Frete para a Testello, uma transportad
 - MySQL 5.7+
 - Composer
 - Docker
+
 - Configurações para utilizar o Laravel Sail, que a depender do sistema operacional utilizado, pode ser diferente. As configurações necessárias para rodar o Sail podem ser conferidas na documentação oficial:
 - https://laravel.com/docs/11.x/sail#installation
 
