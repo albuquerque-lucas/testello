@@ -84,20 +84,17 @@ class FreightTableControllerTest extends TestCase
         $this->assertDatabaseHas('freight_tables', $data);
     }
 
-    public function test_it_can_delete_freight_tables()
+    public function test_it_can_delete_freight_table()
     {
         $branch = Branch::factory()->create();
-        $freightTables = FreightTable::factory()->count(3)->create();
-    
-        $ids = $freightTables->pluck('id')->toArray();
-    
-        $response = $this->postJson('/api/freight-tables/delete', ['ids' => $ids]);
-    
+        $freightTable = FreightTable::factory()->create();
+        
+        $response = $this->deleteJson('/api/freight-tables/' . $freightTable->id);
+        
         $response->assertStatus(200);
-        foreach ($ids as $id) {
-            $this->assertDatabaseMissing('freight_tables', ['id' => $id]);
-        }
+        $this->assertDatabaseMissing('freight_tables', ['id' => $freightTable->id]);
     }
+    
 
     public function test_it_can_upload_freight_csv()
     {

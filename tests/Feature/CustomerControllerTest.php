@@ -12,12 +12,12 @@ class CustomerControllerTest extends TestCase
 
     public function test_it_can_fetch_all_customers()
     {
-        Customer::factory()->count(5)->create();
+        Customer::factory()->count(13)->create();
 
         $response = $this->getJson('/api/customers');
 
         $response->assertStatus(200);
-        $response->assertJsonCount(5);
+        $response->assertJsonCount(13);
     }
 
     public function test_it_can_fetch_a_single_customer()
