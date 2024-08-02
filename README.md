@@ -282,4 +282,6 @@ Essas rotas permitem a manipulação eficiente dos dados essenciais para a opera
 
 ### Hospedagem da API
 
-A API encontra-se hospedada atualmente para fins de demonstração no domínio pessoal [www.albuquerqueincode.com](http://www.albuquerqueincode.com), de onde as rotas poderão ser acessadas.
+A API encontra-se hospedada atualmente para fins de demonstração no domínio pessoal [www.albuquerqueincode.com](https://www.albuquerqueincode.com), de onde as rotas poderão ser acessadas.
+
+- Exemplo: [www.albuquerqueincode.com/api/branches](https://www.albuquerqueincode.com/api/branches)
