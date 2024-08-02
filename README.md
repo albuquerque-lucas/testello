@@ -94,10 +94,23 @@ vendor/bin/sail up
 Se os contêineres estiverem funcionando corretamente, você pode rodar as migrations:
 
 ```bash
-vendor/bin/sail migrate --seed
+vendor/bin/sail artisan migrate --seed
 ```
 
 O comando acima irá rodar as migrações e os seeders do banco de dados, populando as tabelas branches e customers.
+
+
+#### Testes
+O arquivo de ambiente de teste vem previamente configurado. Também deverá ser rodada a migration para ele:
+
+```bash
+vendor/bin/sail artisan migrate --env=testing
+```
+
+Para rodar os testes, chamar o comando:
+```bash
+vendor/bin/sail artisan test
+```
 
 </details>
 
