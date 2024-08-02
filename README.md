@@ -1,66 +1,170 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
++++
+# Testello
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Menu
 
-## About Laravel
+- [Descrição](#descrição)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Requisitos do Sistema](#requisitos-do-sistema)
+- [Configuração do Ambiente](#configuração-do-ambiente)
+- [Estrutura do Banco de Dados](#estrutura-do-banco-de-dados)
+- [Importação de CSV](#importação-de-csv)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Descrição
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<details>
+<summary>Descrição</summary>
+Solução para Importação de Tabelas de Frete para a Testello, uma transportadora que presta serviços para múltiplos clientes. A aplicação permite a importação eficiente de arquivos CSV contendo tabelas de frete de um ou mais clientes, suportando um grande volume de registros (até 300 mil linhas) sem causar timeout HTTP.
+</details>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Tecnologias Utilizadas
 
-## Learning Laravel
+<details>
+<summary>Tecnologias Utilizadas</summary>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Back-end**: PHP 8.2, Laravel
+- **Banco de Dados**: MySQL
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+</details>
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Requisitos do Sistema
 
-## Laravel Sponsors
+<details>
+<summary>Requisitos do Sistema</summary>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- PHP 8.2+
+- Node.js 18+
+- MySQL 5.7+
+- Composer
+- Docker
 
-### Premium Partners
+</details>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Configuração do Ambiente
 
-## Contributing
+<details>
+<summary>Configuração do Ambiente</summary>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### Clonar o Repositório
 
-## Code of Conduct
+```bash
+git clone git@github.com:albuquerque-lucas/testello.git
+cd testello
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### Instalar dependências do Back-End
 
-## Security Vulnerabilities
+```bash
+composer install
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### Subir os contêineres
 
-## License
+```bash
+vendor/bin/sail up
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#### Deve-se lembrar que por padrão, o sail roda na porta 80. Caso ela já esteja em execução, será necessário fechar o processo em execução na porta 80
+
+```bash
+sudo lsof -i :80
+sudo kill PID
+```
+
+#### Se os contêineres estiverem funcionando corretamente, você pode rodar as migrations
+
+```bash
+vendor/bin/sail migrate --seed
+```
+
+O comando acima irá rodar as migrações e os seeders do banco de dados, populando as tabelas branches e customers.
+
+</details>
+
+## Estrutura do Banco de Dados
+
+<details>
+<summary>Estrutura do Banco de Dados</summary>
+
+### Tabelas Necessárias
+
+A estrutura do banco de dados para a aplicação Testello inclui três tabelas principais: `customers`, `branches` e `freight_tables`. Abaixo está a descrição detalhada de cada uma dessas tabelas.
+
+#### Tabela `customers`
+
+Armazena informações sobre os clientes que utilizam os serviços da Testello.
+
+- `id`: Identificador único do cliente.
+- `name`: Nome do cliente.
+- `timestamps`: Marcas de tempo de criação e atualização do registro.
+
+#### Tabela `branches`
+
+Armazena informações sobre as filiais da Testello.
+
+- `id`: Identificador único da filial.
+- `name`: Nome da filial.
+- `location`: Localização da filial.
+- `timestamps`: Marcas de tempo de criação e atualização do registro.
+
+#### Tabela `freight_tables`
+
+Armazena as tabelas de frete para cada cliente, contendo informações detalhadas sobre as tarifas de frete. Vale notar que a coluna branch_id é adicionada em uma migration posterior à migration principal.
+
+- `id`: Identificador único da tabela de frete.
+- `customer_id`: Chave estrangeira que referencia o cliente ao qual a tabela de frete pertence.
+- `branch_id`: Chave estrangeira que referencia uma filial.
+- `from_postcode`: Código postal de origem.
+- `to_postcode`: Código postal de destino.
+- `from_weight`: Peso inicial da faixa de frete.
+- `to_weight`: Peso final da faixa de frete.
+- `cost`: Custo do frete para a faixa de peso especificada.
+- `timestamps`: Marcas de tempo de criação e atualização do registro.
+
+</details>
+
+## Importação de CSV
+
+<details>
+<summary>Importação de CSV</summary>
+
+A importação de arquivos CSV na aplicação Testello é realizada através de uma rota específica que aceita arquivos CSV enviados pelos usuários. Este processo é gerido pela rota `POST /upload-freight-csv`, que aciona o método `uploadCSV` no `FreightTableController`.
+
+### Processo de Importação
+
+1. **Recebimento dos Arquivos CSV**:
+   - O usuário seleciona e envia um ou mais arquivos CSV através da rota mencionada.
+   - O método `uploadCSV` armazena temporariamente esses arquivos no servidor.
+
+2. **Armazenamento Temporário**:
+   - Cada arquivo CSV é salvo em uma pasta temporária.
+   - Os caminhos dos arquivos são armazenados em um array para processamento posterior.
+
+3. **Desencadeamento de um Job na Fila**:
+   - Após o armazenamento temporário, um job chamado `ProcessFreightTableCsv` é colocado na fila de processamento.
+   - Este job é responsável por processar os arquivos CSV de forma assíncrona, garantindo que o processo de importação não cause timeout no HTTP.
+
+4. **Processamento dos Arquivos CSV**:
+   - O job `ProcessFreightTableCsv` lê cada arquivo CSV e converte os dados para um formato apropriado.
+   - Os registros são processados em chunks de 1000 linhas para otimizar a inserção no banco de dados e evitar sobrecarga.
+
+5. **Inserção no Banco de Dados**:
+   - Cada chunk de dados processado é inserido na tabela `freight_tables` do banco de dados.
+   - A conversão de valores decimais é realizada para assegurar a precisão dos dados de frete.
+
+### Evitando Timeout HTTP
+
+Para evitar timeout HTTP durante a importação de grandes volumes de dados, o processo é realizado de forma assíncrona utilizando jobs na fila. Isso significa que, após o upload dos arquivos CSV, o usuário recebe uma resposta imediata confirmando que os arquivos estão sendo processados. O job `ProcessFreightTableCsv` cuida do processamento real dos dados, permitindo que a aplicação permaneça responsiva.
+
+### Rodando Jobs em Ambiente de Desenvolvimento ou Produção
+
+Para que os jobs sejam executados em um ambiente de desenvolvimento ou produção, é necessário rodar o seguinte comando:
+
+```bash
+vendor/bin/sail artisan queue:work
+```
+
+Em um ambiente de produção, pode ser necessário configurar Cron Jobs ou, dependendo do tipo de hospedagem, utilizar o Supervisor para manter o worker rodando continuamente. Isso garante que os jobs na fila sejam processados de maneira confiável e oportuna.
+
+</details>
++++
