@@ -38,7 +38,7 @@ Solução para Importação de Tabelas de Frete para a Testello, uma transportad
 - Composer
 - Docker
 
-- Configurações para utilizar o Laravel Sail, que a depender do sistema operacional utilizado, pode ser diferente. As configurações necessárias para rodar o Sail podem ser conferidas na documentação oficial:
+- Configurações para utilizar o Laravel Sail, que a depender do sistema operacional utilizado, pode ser diferente. As configurações necessárias para rodar o Sail podem ser conferidas na documentação oficial:s
 - https://laravel.com/docs/11.x/sail#installation
 
 </details>
