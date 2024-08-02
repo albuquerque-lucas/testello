@@ -84,25 +84,21 @@ class FreightTableController extends Controller
         }
     }
 
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $ids = $request->input('ids', []);
-    
-        if (empty($ids)) {
-            return response()->json(['error' => 'Nenhum ID fornecido'], 400);
-        }
-    
         try {
-            DB::transaction(function () use ($ids) {
-                FreightTable::whereIn('id', $ids)->delete();
-            });
+            $freightTable = FreightTable::findOrFail($id);
+            $freightTable->delete();
     
-            return response()->json(['message' => 'Registros da tabela de frete deletados com sucesso'], 200);
+            return response()->json(['message' => 'Registro da tabela de frete deletado com sucesso'], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Registro não encontrado'], 404);
         } catch (Exception $e) {
-            \Log::error('Erro ao deletar os registros da tabela de frete: ' . $e->getMessage());
-            return response()->json(['error' => 'Erro ao deletar os registros da tabela de frete'], 500);
+            \Log::error('Erro ao deletar o registro da tabela de frete: ' . $e->getMessage());
+            return response()->json(['error' => 'Erro ao deletar o registro da tabela de frete'], 500);
         }
     }
+    
 
     public function bulkDelete()
     {
