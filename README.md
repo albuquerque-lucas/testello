@@ -1,4 +1,3 @@
-+++markdown
 # Testello
 
 ## Menu
@@ -244,4 +243,3 @@ A aplicação Testello possui as seguintes rotas disponíveis para interagir com
 Essas rotas permitem a manipulação eficiente dos dados essenciais para a operação da Testello, facilitando a integração e a manutenção do sistema.
 
 </details>
-+++
