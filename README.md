@@ -173,70 +173,70 @@ Em um ambiente de produção, pode ser necessário configurar Cron Jobs ou, depe
 <details>
 <summary>Rotas</summary>
 
-A aplicação Testello possui as seguintes rotas disponíveis para interagir com os dados de frete, clientes e filiais:
+A aplicação Testello possui as seguintes rotas disponíveis para interagir com os dados de frete, clientes e filiais. Para o ambiente de desenvolvimento, o domínio será localhost na porta 80. Em produção, deve ser substituído pelo seu domínio específico:
 
 - **Rota para Upload de CSV**:
-  - `POST /upload-freight-csv`
+  - `POST http://localhost/api/upload-freight-csv`
     - Controlador: `FreightTableController@uploadCSV`
     - Descrição: Rota para fazer o upload de arquivos CSV contendo tabelas de frete.
 
 - **Rota para Deleção em Massa de Tabelas de Frete**:
-  - `POST /freight-tables/bulkDelete`
+  - `POST http://localhost/api/freight-tables/bulkDelete`
     - Controlador: `FreightTableController@bulkDelete`
     - Descrição: Rota para deletar múltiplas entradas de tabelas de frete de uma vez.
 
 - **Rota para Deletar uma Tabela de Frete**:
-  - `POST /freight-tables/delete`
+  - `POST http://localhost/api/freight-tables/delete`
     - Controlador: `FreightTableController@destroy`
     - Descrição: Rota para deletar uma tabela de frete específica.
 
 - **Rotas para Tabelas de Frete**:
-  - `GET /freight-tables`
+  - `GET http://localhost/api/freight-tables`
     - Controlador: `FreightTableController@index`
     - Descrição: Rota para listar todas as tabelas de frete.
-  - `POST /freight-tables`
+  - `POST http://localhost/api/freight-tables`
     - Controlador: `FreightTableController@store`
     - Descrição: Rota para criar uma nova tabela de frete.
-  - `GET /freight-tables/{id}`
+  - `GET http://localhost/api/freight-tables/{id}`
     - Controlador: `FreightTableController@show`
     - Descrição: Rota para exibir uma tabela de frete específica.
-  - `PUT /freight-tables/{id}`
+  - `PUT api/freight-tables/{id}`
     - Controlador: `FreightTableController@update`
     - Descrição: Rota para atualizar uma tabela de frete específica.
 
 - **Rotas para Clientes**:
-  - `GET /customers`
+  - `GET http://localhost/api/customers`
     - Controlador: `CustomerController@index`
     - Descrição: Rota para listar todos os clientes.
-  - `POST /customers`
+  - `POST http://localhost/api/customers`
     - Controlador: `CustomerController@store`
     - Descrição: Rota para criar um novo cliente.
-  - `GET /customers/{id}`
+  - `GET http://localhost/api/customers/{id}`
     - Controlador: `CustomerController@show`
     - Descrição: Rota para exibir um cliente específico.
-  - `PUT /customers/{id}`
+  - `PUT http://localhost/api/customers/{id}`
     - Controlador: `CustomerController@update`
     - Descrição: Rota para atualizar um cliente específico.
-  - `DELETE /customers/{id}`
+  - `DELETE http://localhost/api/customers/{id}`
     - Controlador: `CustomerController@destroy`
     - Descrição: Rota para deletar um cliente específico.
 
 - **Rotas para Filiais**:
-  - `GET /branches`
+  - `GET http://localhost/api/branches`
     - Controlador: `BranchController@index`
     - Descrição: Rota para listar todas as filiais.
-  - `POST /branches`
+  - `POST http://localhost/api/branches`
     - Controlador: `BranchController@store`
     - Descrição:
 
  Rota para criar uma nova filial.
-  - `GET /branches/{id}`
+  - `GET http://localhost/api/branches/{id}`
     - Controlador: `BranchController@show`
     - Descrição: Rota para exibir uma filial específica.
-  - `PUT /branches/{id}`
+  - `PUT http://localhost/api/branches/{id}`
     - Controlador: `BranchController@update`
     - Descrição: Rota para atualizar uma filial específica.
-  - `DELETE /branches/{id}`
+  - `DELETE http://localhost/api/branches/{id}`
     - Controlador: `BranchController@destroy`
     - Descrição: Rota para deletar uma filial específica.
 
