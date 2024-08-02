@@ -227,9 +227,9 @@ A aplicação Testello possui as seguintes rotas disponíveis para interagir com
     - Descrição: Rota para listar todas as filiais.
   - `POST /branches`
     - Controlador: `BranchController@store`
-    - Descrição
+    - Descrição:
 
-: Rota para criar uma nova filial.
+ Rota para criar uma nova filial.
   - `GET /branches/{id}`
     - Controlador: `BranchController@show`
     - Descrição: Rota para exibir uma filial específica.
@@ -243,3 +243,7 @@ A aplicação Testello possui as seguintes rotas disponíveis para interagir com
 Essas rotas permitem a manipulação eficiente dos dados essenciais para a operação da Testello, facilitando a integração e a manutenção do sistema.
 
 </details>
+
+### Hospedagem da API
+
+A API encontra-se hospedada atualmente para fins de demonstração no domínio pessoal [www.albuquerqueincode.com](http://www.albuquerqueincode.com), de onde as rotas poderão ser acessadas.
