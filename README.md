@@ -48,7 +48,7 @@ Solução para Importação de Tabelas de Frete para a Testello, uma transportad
 #### Clonar o Repositório
 
 ```bash
-git clone git@github.com:albuquerque-lucas/testello.git
+git clone https://github.com/albuquerque-lucas/testello.git
 cd testello
 ```
 
