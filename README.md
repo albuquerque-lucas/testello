@@ -278,8 +278,8 @@ branches`
 
 Essas rotas permitem a manipulação eficiente dos dados essenciais para a operação da Testello, facilitando a integração e a manutenção do sistema.
 
+</details>
+
 ### Hospedagem da API
 
 A API encontra-se hospedada atualmente para fins de demonstração no domínio pessoal [www.albuquerqueincode.com](http://www.albuquerqueincode.com), de onde as rotas poderão ser acessadas.
-
-</details>
