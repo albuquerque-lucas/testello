@@ -1,4 +1,4 @@
-+++
++++markdown
 # Testello
 
 ## Menu
@@ -9,6 +9,7 @@
 - [Configuração do Ambiente](#configuração-do-ambiente)
 - [Estrutura do Banco de Dados](#estrutura-do-banco-de-dados)
 - [Importação de CSV](#importação-de-csv)
+- [Rotas](#rotas)
 
 ## Descrição
 
@@ -165,6 +166,82 @@ vendor/bin/sail artisan queue:work
 ```
 
 Em um ambiente de produção, pode ser necessário configurar Cron Jobs ou, dependendo do tipo de hospedagem, utilizar o Supervisor para manter o worker rodando continuamente. Isso garante que os jobs na fila sejam processados de maneira confiável e oportuna.
+
+</details>
+
+## Rotas
+
+<details>
+<summary>Rotas</summary>
+
+A aplicação Testello possui as seguintes rotas disponíveis para interagir com os dados de frete, clientes e filiais:
+
+- **Rota para Upload de CSV**:
+  - `POST /upload-freight-csv`
+    - Controlador: `FreightTableController@uploadCSV`
+    - Descrição: Rota para fazer o upload de arquivos CSV contendo tabelas de frete.
+
+- **Rota para Deleção em Massa de Tabelas de Frete**:
+  - `POST /freight-tables/bulkDelete`
+    - Controlador: `FreightTableController@bulkDelete`
+    - Descrição: Rota para deletar múltiplas entradas de tabelas de frete de uma vez.
+
+- **Rota para Deletar uma Tabela de Frete**:
+  - `POST /freight-tables/delete`
+    - Controlador: `FreightTableController@destroy`
+    - Descrição: Rota para deletar uma tabela de frete específica.
+
+- **Rotas para Tabelas de Frete**:
+  - `GET /freight-tables`
+    - Controlador: `FreightTableController@index`
+    - Descrição: Rota para listar todas as tabelas de frete.
+  - `POST /freight-tables`
+    - Controlador: `FreightTableController@store`
+    - Descrição: Rota para criar uma nova tabela de frete.
+  - `GET /freight-tables/{id}`
+    - Controlador: `FreightTableController@show`
+    - Descrição: Rota para exibir uma tabela de frete específica.
+  - `PUT /freight-tables/{id}`
+    - Controlador: `FreightTableController@update`
+    - Descrição: Rota para atualizar uma tabela de frete específica.
+
+- **Rotas para Clientes**:
+  - `GET /customers`
+    - Controlador: `CustomerController@index`
+    - Descrição: Rota para listar todos os clientes.
+  - `POST /customers`
+    - Controlador: `CustomerController@store`
+    - Descrição: Rota para criar um novo cliente.
+  - `GET /customers/{id}`
+    - Controlador: `CustomerController@show`
+    - Descrição: Rota para exibir um cliente específico.
+  - `PUT /customers/{id}`
+    - Controlador: `CustomerController@update`
+    - Descrição: Rota para atualizar um cliente específico.
+  - `DELETE /customers/{id}`
+    - Controlador: `CustomerController@destroy`
+    - Descrição: Rota para deletar um cliente específico.
+
+- **Rotas para Filiais**:
+  - `GET /branches`
+    - Controlador: `BranchController@index`
+    - Descrição: Rota para listar todas as filiais.
+  - `POST /branches`
+    - Controlador: `BranchController@store`
+    - Descrição
+
+: Rota para criar uma nova filial.
+  - `GET /branches/{id}`
+    - Controlador: `BranchController@show`
+    - Descrição: Rota para exibir uma filial específica.
+  - `PUT /branches/{id}`
+    - Controlador: `BranchController@update`
+    - Descrição: Rota para atualizar uma filial específica.
+  - `DELETE /branches/{id}`
+    - Controlador: `BranchController@destroy`
+    - Descrição: Rota para deletar uma filial específica.
+
+Essas rotas permitem a manipulação eficiente dos dados essenciais para a operação da Testello, facilitando a integração e a manutenção do sistema.
 
 </details>
 +++
